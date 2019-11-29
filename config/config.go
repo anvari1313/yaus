@@ -11,14 +11,23 @@ import (
 var builtinConfig = []byte(
 	`server:
   addr: 0.0.0.0:8080
+mongodb:
+  uri: mongodb://localhost:27017
+  database_name: yaus
 `)
 
 type Config struct {
-	Server Server `yaml:"server"`
+	Server  Server  `yaml:"server"`
+	MongoDB MongoDB `yaml:"mongodb"`
 }
 
 type Server struct {
 	Addr string `yaml:"addr"`
+}
+
+type MongoDB struct {
+	URI          string `yaml:"uri"`
+	DatabaseName string `yaml:"database_name"`
 }
 
 func ReadConfig(filename string) *Config {
