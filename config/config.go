@@ -6,6 +6,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
 	"strings"
+	"time"
 )
 
 var builtinConfig = []byte(
@@ -14,11 +15,15 @@ var builtinConfig = []byte(
 mongodb:
   uri: mongodb://localhost:27017
   database_name: yaus
+jwt:
+  ttl: 72h
+  key: somesecretekey
 `)
 
 type Config struct {
 	Server  Server  `yaml:"server"`
 	MongoDB MongoDB `yaml:"mongodb"`
+	JWT     JWT     `yaml:"jwt"`
 }
 
 type Server struct {
@@ -28,6 +33,11 @@ type Server struct {
 type MongoDB struct {
 	URI          string `yaml:"uri"`
 	DatabaseName string `yaml:"database_name"`
+}
+
+type JWT struct {
+	TTL time.Duration `yaml:"ttl"`
+	Key string        `yaml:"key"`
 }
 
 func ReadConfig(filename string) *Config {
