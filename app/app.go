@@ -1,9 +1,10 @@
 package app
 
 import (
-	"github.com/anvari1313/yaus/util"
 	"log"
 	"net/http"
+
+	"github.com/anvari1313/yaus/util"
 
 	"github.com/anvari1313/yaus/config"
 	"github.com/anvari1313/yaus/db"

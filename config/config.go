@@ -2,11 +2,12 @@ package config
 
 import (
 	"bytes"
+	"strings"
+	"time"
+
 	"github.com/labstack/gommon/log"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
-	"strings"
-	"time"
 )
 
 var builtinConfig = []byte(

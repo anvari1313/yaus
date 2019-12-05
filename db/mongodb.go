@@ -2,10 +2,11 @@ package db
 
 import (
 	"context"
+	"time"
+
 	"github.com/anvari1313/yaus/config"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 func MongoConnect(c config.MongoDB) (*mongo.Database, error) {

@@ -1,9 +1,10 @@
 package util
 
 import (
+	"time"
+
 	"github.com/anvari1313/yaus/config"
 	"github.com/dgrijalva/jwt-go"
-	"time"
 )
 
 type JWTGenerator interface {
