@@ -1,15 +1,17 @@
 package app
 
 import (
-	"log"
 	"net/http"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/anvari1313/yaus/util"
+
+	"github.com/labstack/echo/v4"
 
 	"github.com/anvari1313/yaus/config"
 	"github.com/anvari1313/yaus/db"
 	"github.com/anvari1313/yaus/repository"
-	"github.com/labstack/echo/v4"
 )
 
 type App struct {
