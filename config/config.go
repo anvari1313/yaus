@@ -10,12 +10,27 @@ import (
 	"github.com/spf13/viper"
 )
 
-var builtinConfig = []byte(
-	`server:
+var builtinConfig = []byte(`server:
   addr: 0.0.0.0:8080
 mongodb:
   uri: mongodb://localhost:27017
   database_name: yaus
+redis:
+  address: 127.0.0.1:6379
+  password: ""
+  db: 0
+  max_retries: 0
+  min_retry_back_off: 8ms
+  max_retry_back_off: 512ms
+  dial_timeout: 5s
+  read_timeout: 3s
+  write_timeout: 3s
+  pool_size: 10
+  min_idle_connections: 5
+  max_connection_age: 0
+  pool_timeout: 4s
+  idle_timeout: 5m
+  idle_check_frequency: 1m
 jwt:
   ttl: 72h
   key: somesecretekey
@@ -24,6 +39,7 @@ jwt:
 type Config struct {
 	Server  Server  `yaml:"server"`
 	MongoDB MongoDB `yaml:"mongodb"`
+	Redis   Redis   `yaml:"redis"`
 	JWT     JWT     `yaml:"jwt"`
 }
 
@@ -34,6 +50,24 @@ type Server struct {
 type MongoDB struct {
 	URI          string `yaml:"uri"`
 	DatabaseName string `yaml:"database_name"`
+}
+
+type Redis struct {
+	Address            string        `yaml:"address"`
+	Password           string        `yaml:"password"`
+	DB                 int           `yaml:"db"`
+	MaxRetries         int           `yaml:"max_retries"`
+	MinRetryBackOff    time.Duration `yaml:"min_retry_back_off"`
+	MaxRetryBackOff    time.Duration `yaml:"max_retry_back_off"`
+	DialTimeout        time.Duration `yaml:"dial_timeout"`
+	ReadTimeout        time.Duration `yaml:"read_timeout"`
+	WriteTimeout       time.Duration `yaml:"write_timeout"`
+	PoolSize           int           `yaml:"pool_size"`
+	MinIdleConnections int           `yaml:"min_idle_connections"`
+	MaxConnectionAge   time.Duration `yaml:"max_connection_age"`
+	PoolTimeout        time.Duration `yaml:"pool_timeout"`
+	IdleTimeout        time.Duration `yaml:"idle_timeout"`
+	IdleCheckFrequency time.Duration `yaml:"idle_check_frequency"`
 }
 
 type JWT struct {
