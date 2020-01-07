@@ -5,8 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/labstack/gommon/log"
 	"github.com/mitchellh/mapstructure"
+	log "github.com/sirupsen/logrus"
+
 	"github.com/spf13/viper"
 )
 
