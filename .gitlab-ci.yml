@@ -1,0 +1,27 @@
+stages:
+  - test
+
+
+lint:
+  image: registry.snapp.tech/security_regulatory/docker-golang-ci:1.13
+  stage: test
+  variables:
+    GOOS: "linux"
+    GOARCH: "amd64"
+  script:
+    - HTTP_PROXY=${PROXY} HTTPS_PROXY=${PROXY} make lint-ci
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[do-not-test\]/
+
+test:
+  image: registry.snapp.tech/security_regulatory/docker-golang-ci:1.13
+  stage: test
+  variables:
+    GOOS: "linux"
+    GOARCH: "amd64"
+  script:
+    - HTTP_PROXY=${PROXY} HTTPS_PROXY=${PROXY} make test
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[do-not-test\]/

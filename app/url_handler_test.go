@@ -1,21 +1,18 @@
 package app
 
 import (
-	"context"
 	"testing"
-
-	"github.com/anvari1313/yaus/repository"
 )
 
-type mockUserRepo struct{}
-
-func (m *mockUserRepo) Create(ctx context.Context, url string) (string, error) {
-	return "", nil
-}
-
-func (m *mockUserRepo) FindByID(ctx context.Context, id string) (*repository.URLModel, error) {
-	return &repository.URLModel{URL: "https://some-domain.com/some/url"}, nil
-}
+//type mockUserRepo struct{}
+//
+//func (m *mockUserRepo) Create(ctx context.Context, url string) (string, error) {
+//	return "", nil
+//}
+//
+//func (m *mockUserRepo) FindByID(ctx context.Context, id string) (*repository.URLModel, error) {
+//	return &repository.URLModel{URL: "https://some-domain.com/some/url"}, nil
+//}
 
 func TestApp_RegisterRoute(t *testing.T) {
 
