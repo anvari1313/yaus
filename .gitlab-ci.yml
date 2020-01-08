@@ -6,6 +6,8 @@ variables:
 
 lint:
   image: ${CI_IMAGE_PATH}
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
   stage: test
   variables:
     GOOS: "linux"
@@ -18,6 +20,8 @@ lint:
 
 test:
   image: ${CI_IMAGE_PATH}
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
   stage: test
   variables:
     GOOS: "linux"
