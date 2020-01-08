@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Template
+objects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations: null
+      labels:
+        app.snappcloud.io/name: yaus_backend
+        app.snappcloud.io/managed-by: AhmadAnvari
+        app: backend
+      name: backend
+    spec:
+      ports:
+        - name: backend-tcp
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: backend
+      sessionAffinity: None
+      type: ClusterIP

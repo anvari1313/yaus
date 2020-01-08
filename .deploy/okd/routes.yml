@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: ${SERVICE_NAME}
+objects:
+  - apiVersion: v1
+    kind: Route
+    metadata:
+      labels:
+        app.snappcloud.io/name: yaus_backend
+        app.snappcloud.io/managed-by: AhmadAnvari
+        app: ${SERVICE_NAME}
+      name: ${SERVICE_NAME}-tcp
+    spec:
+      host: ${SERVICE_NAME}-${SERVICE_NAMESPACE}.apps.private.teh-1.snappcloud.io
+      port:
+        targetPort: ${SERVICE_NAME}-tcp
+      tls:
+        termination: edge
+        insecureEdgeTerminationPolicy: Redirect
+      to:
+        kind: Service
+        name: ${SERVICE_NAME}
+        weight: 100
+      wildcardPolicy: None
+
+parameters:
+  - name: SERVICE_NAME
+    displayName: Service name
+    description: The name of the application (should be unique in the namespace)
+    required: true
+    value: "backend"
+  - name: SERVICE_NAMESPACE
+    displayName: Application Unique ID
+    required: true
+    value: "yaus"
