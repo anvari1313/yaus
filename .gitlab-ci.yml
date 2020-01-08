@@ -1,9 +1,11 @@
 stages:
   - test
 
+variables:
+  CI_IMAGE_PATH: registry.snapp.tech/yaus/golang-ci:1.13
 
 lint:
-  image: registry.snapp.tech/security_regulatory/docker-golang-ci:1.13
+  image: ${CI_IMAGE_PATH}
   stage: test
   variables:
     GOOS: "linux"
@@ -15,7 +17,7 @@ lint:
       - $CI_COMMIT_MESSAGE =~ /\[do-not-test\]/
 
 test:
-  image: registry.snapp.tech/security_regulatory/docker-golang-ci:1.13
+  image: ${CI_IMAGE_PATH}
   stage: test
   variables:
     GOOS: "linux"
