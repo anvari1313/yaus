@@ -34,13 +34,18 @@ redis:
 jwt:
   ttl: 72h
   key: somesecretekey
+shortened_url:
+  salt: somesecuresalt
+  min_length: 5
+  alphabet: abcdefghijklmnopqrstuvwxyz
 `)
 
 type Config struct {
-	Server  Server  `yaml:"server"`
-	MongoDB MongoDB `yaml:"mongodb"`
-	Redis   Redis   `yaml:"redis"`
-	JWT     JWT     `yaml:"jwt"`
+	Server       Server       `yaml:"server"`
+	MongoDB      MongoDB      `yaml:"mongodb"`
+	Redis        Redis        `yaml:"redis"`
+	JWT          JWT          `yaml:"jwt"`
+	ShortenedURL ShortenedURL `yaml:"shortened_url"`
 }
 
 type Server struct {
@@ -73,6 +78,12 @@ type Redis struct {
 type JWT struct {
 	TTL time.Duration `yaml:"ttl"`
 	Key string        `yaml:"key"`
+}
+
+type ShortenedURL struct {
+	Salt      string `yaml:"salt"`
+	MinLength int    `yaml:"min_length"`
+	Alphabet  string `yaml:"alphabet"`
 }
 
 func ReadConfig(filename string) *Config {
