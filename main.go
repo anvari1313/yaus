@@ -1,53 +1,34 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
 	"github.com/anvari1313/yaus/app"
 	"github.com/anvari1313/yaus/config"
-	"github.com/go-redis/redis/v7"
+	"github.com/anvari1313/yaus/db"
+	"github.com/anvari1313/yaus/shorturl"
+	"github.com/labstack/echo/v4"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-
-	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
-
-	cmd := client.Set("key", 12000, 0)
-	err = cmd.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	result := client.Get("key")
-	v, err := result.Int64()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Value is %d\n", v)
-	res := client.Incr("key")
-	err = res.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
-	v, err = res.Result()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Value is %d\n", v)
-	result = client.Get("key")
-	v, err = result.Int64()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Value is %d\n", v)
-
+	log.SetLevel(log.DebugLevel)
 	c := config.ReadConfig("")
-	app.CreateApp(c)
+
+	sh, err := shorturl.Create(c.ShortenedURL)
+	if err != nil {
+		log.Fatalf("can not start application: %s", err.Error())
+	}
+
+	redis, err := db.ConnectRedis(c.Redis)
+	if err != nil {
+		log.Fatalf("can not start application: %s", err.Error())
+	}
+
+	mongo, err := db.ConnectMongo(c.MongoDB)
+
+	a := app.CreateApp(mongo, redis, sh)
+	e := echo.New()
+	e.GET("/:url_id", a.GetURL)
+	e.POST("/url", a.PostURL)
+
+	log.Fatal(e.Start(c.Server.Addr))
 }
