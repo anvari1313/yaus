@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func MongoConnect(c config.MongoDB) (*mongo.Database, error) {
+func ConnectMongo(c config.MongoDB) (*mongo.Database, error) {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(c.URI))
